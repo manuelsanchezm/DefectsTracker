@@ -26,7 +26,7 @@ namespace DefectsTracker.Controllers
         {
             var defects = _repository.GetAllDefects();
 
-            return Ok(_mapper.Map<DefectReadDto>(defects)) ;
+            return Ok(_mapper.Map<IEnumerable<DefectReadDto>>(defects)) ;
         }
 
         // GET: /api/defect/{id}

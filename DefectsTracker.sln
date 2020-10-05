@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefectsTracker", "DefectsTracker\DefectsTracker.csproj", "{1B66C437-AF83-48E4-93BB-362D7E3A4591}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts", "{A06BBE38-5EBE-4A85-890F-BDBD2C863028}"
+	ProjectSection(SolutionItems) = preProject
+		SQL Scripts\DB_Create.sql = SQL Scripts\DB_Create.sql
+		table_defect.sql = table_defect.sql
+		table_defect_Data.sql = table_defect_Data.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B66C437-AF83-48E4-93BB-362D7E3A4591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B66C437-AF83-48E4-93BB-362D7E3A4591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B66C437-AF83-48E4-93BB-362D7E3A4591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B66C437-AF83-48E4-93BB-362D7E3A4591}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C073885-754B-4B83-8024-122CB82280D2}
+	EndGlobalSection
+EndGlobal

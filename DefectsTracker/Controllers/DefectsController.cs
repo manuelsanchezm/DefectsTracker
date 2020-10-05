@@ -3,12 +3,14 @@ using DefectsTracker.Dtos;
 using DefectsTracker.Models;
 using DefectsTracker.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Internal;
+using System;
 using System.Collections.Generic;
 
 namespace DefectsTracker.Controllers
 {
     [ApiController]
-    [Route("[Controller]")]
+    [Route("api/[Controller]")]
     public class DefectsController : ControllerBase
     {
         private readonly IDefectRepository _repository;
@@ -20,7 +22,7 @@ namespace DefectsTracker.Controllers
             _mapper = mapper;
         }
 
-        // GET: /api/defect
+        // GET: /defects
         [HttpGet]
         public ActionResult<IEnumerable<DefectReadDto>> GetAllDefects()
         {
@@ -29,7 +31,7 @@ namespace DefectsTracker.Controllers
             return Ok(_mapper.Map<IEnumerable<DefectReadDto>>(defects)) ;
         }
 
-        // GET: /api/defect/{id}
+        // GET: /defects/{id}
         [HttpGet("{id}")]
         public ActionResult<DefectReadDto> GetDefectById(int id)
         {
@@ -38,6 +40,19 @@ namespace DefectsTracker.Controllers
                 return NotFound();
 
             return Ok(_mapper.Map<DefectReadDto>(defect));
+        }
+
+        // POST: /defects
+        public ActionResult<DefectReadDto> CreateDefect(DefectCreateDto defectCreateDto)
+        {
+            var defectModel = _mapper.Map<Defect>(defectCreateDto);
+            defectModel.Created = DateTime.Now;
+            defectModel.Modified = DateTime.Now;
+
+            _repository.CreateDefect(defectModel);
+            _repository.SaveChanges();
+            
+            return Ok(defectModel);
         }
     }
 }

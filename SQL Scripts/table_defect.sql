@@ -19,8 +19,8 @@ CREATE TABLE [dbo].[defect](
 	[defect_priority] [tinyint] NOT NULL,
 	[assigned_user] [int] NULL,
 	[reported_user] [int] NOT NULL,
-	[created_date] [date] NOT NULL,
-	[modified_date] [date] NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[modified_date] [datetime] NOT NULL,
  CONSTRAINT [defects_pk] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC

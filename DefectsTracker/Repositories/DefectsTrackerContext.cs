@@ -1,12 +1,11 @@
 ﻿using DefectsTracker.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DefectsTracker.Repositories
 {
     public partial class DefectsTrackerContext : DbContext
     {
-        public DefectsTrackerContext()
-        { }
         public DefectsTrackerContext(DbContextOptions<DefectsTrackerContext> options)
             : base(options)
         { }
@@ -23,31 +22,50 @@ namespace DefectsTracker.Repositories
             {
                 entity.ToTable("defect");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int")
+                    .HasAnnotation("SqlServer: ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                entity.Property(e => e.AssignedTo).HasColumnName("assigned_user");
+                entity.Property(e => e.AssignedTo)
+                    .HasColumnName("assigned_user")
+                    .HasColumnType("int");
 
                 entity.Property(e => e.Created)
+                    .IsRequired()
                     .HasColumnName("created_date")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.DefectPriority).HasColumnName("defect_priority");
+                entity.Property(e => e.Priority)
+                    .IsRequired()
+                    .HasColumnName("defect_priority")
+                    .HasColumnType("tinyint");
 
                 entity.Property(e => e.Description)
-                    .HasColumnName("description");
+                    .HasColumnName("description")
+                    .HasColumnType("nvarchar(max)");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("defect_title")
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
 
-                entity.Property(e => e.DefectType).HasColumnName("defect_type");
+                entity.Property(e => e.Type)
+                    .IsRequired()
+                    .HasColumnName("defect_type")
+                    .HasColumnType("tinyint");
 
                 entity.Property(e => e.Modified)
+                    .IsRequired()
                     .HasColumnName("modified_date")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.ReportedBy).HasColumnName("reported_user");
+                entity.Property(e => e.ReportedBy)
+                    .IsRequired()
+                    .HasColumnName("reported_user")
+                    .HasColumnType("int");
             });
 
             OnModelCreatingPartial(modelBuilder);

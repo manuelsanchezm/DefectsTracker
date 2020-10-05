@@ -6,6 +6,11 @@ namespace DefectsTracker.Repositories
 {
     public class MockDefect : IDefectRepository
     {
+        public void CreateDefect(Defect defect)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Defect> GetAllDefects()
         {
             return new List<Defect>()
@@ -18,8 +23,8 @@ namespace DefectsTracker.Repositories
                        ReportedBy = 1,
                        Created = DateTime.Parse( "2018/01/01 11:50:00"),
                        Modified = DateTime.Parse( "2018/01/01 11:50:00"),
-                       DefectType = 1,
-                       DefectPriority = 1
+                       Type = 1,
+                       Priority = 1
                 },
                 new Defect {
                     Id = 20,
@@ -29,8 +34,8 @@ namespace DefectsTracker.Repositories
                        ReportedBy = 1,
                        Created = DateTime.Parse( "2018/01/01 11:50:00"),
                        Modified = DateTime.Parse( "2018/01/01 11:50:00"),
-                       DefectType = 1,
-                       DefectPriority = 1
+                       Type = 1,
+                       Priority = 1
                 },
                 new Defect {
                     Id = 30,
@@ -40,8 +45,8 @@ namespace DefectsTracker.Repositories
                        ReportedBy = 1,
                        Created = DateTime.Parse( "2018/01/01 11:50:00"),
                        Modified = DateTime.Parse( "2018/01/01 11:50:00"),
-                       DefectType = 1,
-                       DefectPriority = 1
+                       Type = 1,
+                       Priority = 1
                 }
             };
         }
@@ -57,9 +62,14 @@ namespace DefectsTracker.Repositories
                 ReportedBy = 1,
                 Created = DateTime.Parse("2018/01/01 11:50:00"),
                 Modified = DateTime.Parse("2018/01/01 11:50:00"),
-                DefectType = 1,
-                DefectPriority = 1
+                Type = 1,
+                Priority = 1
             };
+        }
+
+        public bool SaveChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }

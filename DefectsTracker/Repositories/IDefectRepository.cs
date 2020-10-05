@@ -10,5 +10,7 @@ namespace DefectsTracker.Repositories
     {
         public IEnumerable<Defect> GetAllDefects();
         public Defect GetDefectById(int Id);
+        public void CreateDefect(Defect defect);
+        public bool SaveChanges();
     }
 }

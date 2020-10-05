@@ -13,6 +13,7 @@ namespace DefectsTracker.Profiles
         public DefectProfile()
         {
             CreateMap<Defect, DefectReadDto>();
+            CreateMap<DefectCreateDto, Defect>();
         }
         
     }

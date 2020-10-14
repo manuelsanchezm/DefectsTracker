@@ -22,7 +22,7 @@ namespace DefectsTracker.Controllers
             _mapper = mapper;
         }
 
-        // GET: /defects
+        // GET: api/defects
         [HttpGet]
         public ActionResult<IEnumerable<DefectReadDto>> GetAllDefects()
         {
@@ -31,8 +31,8 @@ namespace DefectsTracker.Controllers
             return Ok(_mapper.Map<IEnumerable<DefectReadDto>>(defects)) ;
         }
 
-        // GET: /defects/{id}
-        [HttpGet("{id}")]
+        // GET: api/defects/{id}
+        [HttpGet("{id}", Name = "GetDefectById")]
         public ActionResult<DefectReadDto> GetDefectById(int id)
         {
             var defect = _repository.GetDefectById(id);
@@ -42,7 +42,7 @@ namespace DefectsTracker.Controllers
             return Ok(_mapper.Map<DefectReadDto>(defect));
         }
 
-        // POST: /defects
+        // POST: api/defects
         public ActionResult<DefectReadDto> CreateDefect(DefectCreateDto defectCreateDto)
         {
             var defectModel = _mapper.Map<Defect>(defectCreateDto);
@@ -51,8 +51,10 @@ namespace DefectsTracker.Controllers
 
             _repository.CreateDefect(defectModel);
             _repository.SaveChanges();
+
+            var defectCreated = _mapper.Map<DefectReadDto>(defectModel);
             
-            return Ok(defectModel);
+            return CreatedAtRoute(nameof(GetDefectById), new { id = defectCreated.Id }, defectCreated);
         }
     }
 }

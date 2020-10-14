@@ -71,5 +71,10 @@ namespace DefectsTracker.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateDefect(Defect defect)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

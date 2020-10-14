@@ -8,9 +8,11 @@ namespace DefectsTracker.Repositories
 {
     public interface IDefectRepository
     {
-        public IEnumerable<Defect> GetAllDefects();
-        public Defect GetDefectById(int Id);
-        public void CreateDefect(Defect defect);
         public bool SaveChanges();
+
+        IEnumerable<Defect> GetAllDefects();
+        Defect GetDefectById(int Id);
+        void CreateDefect(Defect defect);
+        void UpdateDefect(Defect defect);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DefectsTracker.Dtos
 {
-    public class DefectCreateDto
+    public class DefectUpdateDto
     {
         [Required]
         [MaxLength(50)]

@@ -40,5 +40,10 @@ namespace DefectsTracker.Repositories
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void UpdateDefect(Defect defect)
+        {
+            //nothing;
+        }
     }
 }

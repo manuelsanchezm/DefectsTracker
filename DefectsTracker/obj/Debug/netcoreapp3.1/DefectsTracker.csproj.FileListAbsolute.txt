@@ -56,8 +56,10 @@ C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\runtimes\w
 C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.csproj.CoreCompileInputs.cache
-C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.MvcApplicationPartsAssemblyInfo.cache
 C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.csprojAssemblyReference.cache
+C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Projects\NET\DefectsTracker\DefectsTracker\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.csproj.CoreCompileInputs.cache
+C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.MvcApplicationPartsAssemblyInfo.cache

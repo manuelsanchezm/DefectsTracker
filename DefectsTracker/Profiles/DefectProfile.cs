@@ -14,6 +14,7 @@ namespace DefectsTracker.Profiles
         {
             CreateMap<Defect, DefectReadDto>();
             CreateMap<DefectCreateDto, Defect>();
+            CreateMap<DefectUpdateDto, Defect>();
         }
         
     }

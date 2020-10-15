@@ -2,7 +2,9 @@
 using DefectsTracker.Dtos;
 using DefectsTracker.Models;
 using DefectsTracker.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing.Internal;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,8 @@ namespace DefectsTracker.Controllers
         public ActionResult<IEnumerable<DefectReadDto>> GetAllDefects()
         {
             var defects = _repository.GetAllDefects();
+            if (defects == null)
+                return NotFound();
 
             return Ok(_mapper.Map<IEnumerable<DefectReadDto>>(defects));
         }
@@ -59,13 +63,16 @@ namespace DefectsTracker.Controllers
 
         // PUT: api/defects/{id}
         [HttpPut("{id}")]
-        public ActionResult UpdateDefect(int id, DefectUpdateDto defectUpdateDto)
+        public IActionResult UpdateDefect(int id, DefectUpdateDto defect)
         {
+            if (defect == null)
+                return BadRequest();
+
             var defectModelFromRepository = _repository.GetDefectById(id);
             if (defectModelFromRepository == null)
                 return NotFound(); // 404
 
-            _mapper.Map(defectUpdateDto, defectModelFromRepository);
+            _mapper.Map(defect, defectModelFromRepository);
 
             defectModelFromRepository.Modified = DateTime.Now;
 
@@ -75,5 +82,43 @@ namespace DefectsTracker.Controllers
             return NoContent();
         }
 
+        // PATCH: api/defects/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialDefectUpdate(int id, JsonPatchDocument<DefectUpdateDto> patchDocument)
+        {
+            var defectModelFromRepository = _repository.GetDefectById(id); 
+            if (defectModelFromRepository == null)
+                return NotFound(); // 404 
+
+            var defectToPatch = _mapper.Map<DefectUpdateDto>(defectModelFromRepository);
+            patchDocument.ApplyTo(defectToPatch, ModelState);
+
+            if (!TryValidateModel(defectToPatch))
+                return ValidationProblem(ModelState);
+
+            _mapper.Map(defectToPatch, defectModelFromRepository);
+
+            defectModelFromRepository.Modified = DateTime.Now;
+
+            _repository.UpdateDefect(defectModelFromRepository);
+            _repository.SaveChanges();
+
+
+            return NoContent();
+        }
+
+        // DELETE: api/defects/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteDefect(int id)
+        {
+            var defectModelFromRepository = _repository.GetDefectById(id);
+            if (defectModelFromRepository == null)
+                return NotFound(); // 404 
+
+            _repository.DeleteDefect(defectModelFromRepository);
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace DefectsTracker.Repositories
         Defect GetDefectById(int Id);
         void CreateDefect(Defect defect);
         void UpdateDefect(Defect defect);
+        void DeleteDefect(Defect defect);
     }
 }

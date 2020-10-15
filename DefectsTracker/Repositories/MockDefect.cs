@@ -11,6 +11,11 @@ namespace DefectsTracker.Repositories
             throw new NotImplementedException();
         }
 
+        public void DeleteDefect(Defect defect)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Defect> GetAllDefects()
         {
             return new List<Defect>()

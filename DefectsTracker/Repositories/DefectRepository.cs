@@ -26,6 +26,17 @@ namespace DefectsTracker.Repositories
             _context.Defects.Add(defect);
         }
 
+        public void DeleteDefect(Defect defect)
+        {
+            if (defect == null)
+            {
+                throw new ArgumentNullException(nameof(defect));
+            }
+
+            _context.Remove(defect);
+            
+        }
+
         public IEnumerable<Defect> GetAllDefects()
         {
             return _context.Defects.ToList();

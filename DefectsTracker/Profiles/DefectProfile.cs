@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace DefectsTracker.Profiles
 {
@@ -15,6 +16,7 @@ namespace DefectsTracker.Profiles
             CreateMap<Defect, DefectReadDto>();
             CreateMap<DefectCreateDto, Defect>();
             CreateMap<DefectUpdateDto, Defect>();
+            CreateMap<Defect, DefectUpdateDto>();
         }
         
     }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace DefectsTracker
 {
@@ -31,7 +32,7 @@ namespace DefectsTracker
             services.AddDbContext<DefectsTrackerContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:defects_tracker"]));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             services.AddAutoMapper(typeof(Startup));
 

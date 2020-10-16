@@ -37,17 +37,17 @@ namespace DefectsTracker.Controllers
 
         // GET: api/defects/{id}
         [HttpGet("{id}", Name = "GetDefectById")]
-        public ActionResult<DefectReadDto> GetDefectById(int id)
+        public IActionResult GetDefectById(int id)
         {
             var defect = _repository.GetDefectById(id);
             if (defect == null)
-                return NotFound();
+                return NotFound(); // 404
 
             return Ok(_mapper.Map<DefectReadDto>(defect));
         }
 
         // POST: api/defects
-        public ActionResult<DefectReadDto> CreateDefect(DefectCreateDto defectCreateDto)
+        public IActionResult CreateDefect(DefectCreateDto defectCreateDto)
         {
             var defectModel = _mapper.Map<Defect>(defectCreateDto);
             defectModel.Created = DateTime.Now;
@@ -79,12 +79,12 @@ namespace DefectsTracker.Controllers
             _repository.UpdateDefect(defectModelFromRepository);
             _repository.SaveChanges();
 
-            return NoContent();
+            return CreatedAtRoute(nameof(GetDefectById), new { id = defectModelFromRepository.Id }, defectModelFromRepository);
         }
 
         // PATCH: api/defects/{id}
         [HttpPatch("{id}")]
-        public ActionResult PartialDefectUpdate(int id, JsonPatchDocument<DefectUpdateDto> patchDocument)
+        public IActionResult PartialDefectUpdate(int id, JsonPatchDocument<DefectUpdateDto> patchDocument)
         {
             var defectModelFromRepository = _repository.GetDefectById(id); 
             if (defectModelFromRepository == null)
@@ -109,7 +109,7 @@ namespace DefectsTracker.Controllers
 
         // DELETE: api/defects/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteDefect(int id)
+        public IActionResult DeleteDefect(int id)
         {
             var defectModelFromRepository = _repository.GetDefectById(id);
             if (defectModelFromRepository == null)

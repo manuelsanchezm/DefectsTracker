@@ -32,11 +32,16 @@ namespace DefectsTracker
             services.AddDbContext<DefectsTrackerContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:defects_tracker"]));
 
-            services.AddControllers().AddNewtonsoftJson(s => s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+            services.AddControllers()
+                .AddNewtonsoftJson(s => 
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IDefectRepository, DefectRepository>();
+
+            services.AddMvc()
+                .AddXmlSerializerFormatters();
 
         }
 

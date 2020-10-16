@@ -2,6 +2,7 @@
 using DefectsTracker.Dtos;
 using DefectsTracker.Models;
 using DefectsTracker.Repositories;
+using DefectsTracker.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -15,11 +16,15 @@ namespace DefectsTracker.Controllers
     [Route("api/[Controller]")]
     public class DefectsController : ControllerBase
     {
+        private readonly IDefectService _defectService;
+
         private readonly IDefectRepository _repository;
         private readonly IMapper _mapper;
 
-        public DefectsController(IDefectRepository repository, IMapper mapper)
+        public DefectsController(IDefectService defectService, IDefectRepository repository, IMapper mapper)
         {
+            _defectService = defectService;
+
             _repository = repository;
             _mapper = mapper;
         }
@@ -28,11 +33,11 @@ namespace DefectsTracker.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<DefectReadDto>> GetAllDefects()
         {
-            var defects = _repository.GetAllDefects();
+            var defects = _defectService.GetDefects();
             if (defects == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<IEnumerable<DefectReadDto>>(defects));
+            return Ok(defects);
         }
 
         // GET: api/defects/{id}

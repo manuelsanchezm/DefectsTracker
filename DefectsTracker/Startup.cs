@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DefectsTracker.Repositories;
+using DefectsTracker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,11 +39,12 @@ namespace DefectsTracker
 
             services.AddAutoMapper(typeof(Startup));
 
+            // Mapping interfaces
             services.AddScoped<IDefectRepository, DefectRepository>();
+            services.AddScoped<IDefectService, DefectService>();
 
             services.AddMvc()
                 .AddXmlSerializerFormatters();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

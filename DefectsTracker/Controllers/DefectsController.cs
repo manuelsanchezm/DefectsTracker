@@ -44,11 +44,11 @@ namespace DefectsTracker.Controllers
         [HttpGet("{id}", Name = "GetDefectById")]
         public IActionResult GetDefectById(int id)
         {
-            var defect = _repository.GetDefectById(id);
+            var defect = _defectService.GetDefect(id);
             if (defect == null)
                 return NotFound(); // 404
 
-            return Ok(_mapper.Map<DefectReadDto>(defect));
+            return Ok(defect);
         }
 
         // POST: api/defects
@@ -116,12 +116,9 @@ namespace DefectsTracker.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteDefect(int id)
         {
-            var defectModelFromRepository = _repository.GetDefectById(id);
-            if (defectModelFromRepository == null)
+            var resultAction = _defectService.DeleteDefect(id);
+            if (!resultAction)
                 return NotFound(); // 404 
-
-            _repository.DeleteDefect(defectModelFromRepository);
-            _repository.SaveChanges();
 
             return NoContent();
         }

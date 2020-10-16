@@ -11,6 +11,7 @@ namespace DefectsTracker.Services
     {
         Defect CreateDefect(DefectCreateDto defect);
         IEnumerable<DefectReadDto> GetDefects();
-
+        DefectReadDto GetDefect(int id);
+        bool DeleteDefect(int id);
     }
 }

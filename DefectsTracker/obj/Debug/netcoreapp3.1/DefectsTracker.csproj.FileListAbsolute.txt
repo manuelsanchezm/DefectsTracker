@@ -63,3 +63,4 @@ C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\staticweba
 C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.dll
 C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.pdb
 C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.genruntimeconfig.cache
+C:\Projects\NET\DefectsTracker\DefectsTracker\obj\Debug\netcoreapp3.1\DefectsTracker.csprojAssemblyReference.cache

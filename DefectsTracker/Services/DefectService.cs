@@ -2,6 +2,7 @@
 using DefectsTracker.Dtos;
 using DefectsTracker.Models;
 using DefectsTracker.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 using System;
 using System.Collections.Generic;
 
@@ -17,12 +18,21 @@ namespace DefectsTracker.Services
             _repository = repository;
             _mapper = mapper;
         }
-        public Defect CreateDefect(DefectCreateDto defect)
+        public DefectReadDto CreateDefect(DefectCreateDto defect)
         {
-            throw new NotImplementedException();
+            Defect defectModel = _mapper.Map<Defect>(defect);
+            defectModel.Created = DateTime.Now;
+            defectModel.Modified = DateTime.Now;
+
+            _repository.CreateDefect(defectModel);
+            _repository.SaveChanges();
+
+            // TODO: manage AutoMapper.AutoMapperMappingException - doesn't not save
+
+            return _mapper.Map<DefectReadDto>(defectModel); ;
         }
 
-        public IEnumerable<DefectReadDto> GetDefects()
+        public IEnumerable<DefectReadDto> GetAllDefects()
         {
             var defectsModel = _repository.GetAllDefects();
             var defects = _mapper.Map<IEnumerable<DefectReadDto>>(defectsModel);
@@ -30,7 +40,7 @@ namespace DefectsTracker.Services
             return defects;
         }
 
-        public DefectReadDto GetDefect(int id)
+        public DefectReadDto GetDefectById(int id)
         {
             var defectModel = _repository.GetDefectById(id);
             var defect = _mapper.Map<DefectReadDto>(defectModel);
@@ -47,6 +57,46 @@ namespace DefectsTracker.Services
             {
                 _repository.DeleteDefect(defectModelFromRepository);
                 success = _repository.SaveChanges();
+            }
+
+            return success;
+        }
+
+        public DefectReadDto UpdateDefect(int id, DefectUpdateDto defect)
+        {
+            Defect defectToUpdate = _repository.GetDefectById(id);
+            if (defectToUpdate != null)
+            {
+                _mapper.Map(defect, defectToUpdate);
+                defectToUpdate.Modified = DateTime.Now;
+
+                _repository.UpdateDefect(defectToUpdate);
+                _repository.SaveChanges();
+            }
+            
+            return _mapper.Map<DefectReadDto>(defectToUpdate);
+        }
+
+        public bool PartialUpdateDefect(int id
+            , JsonPatchDocument<DefectUpdateDto> patchDoc)
+        {
+            bool success = false;
+
+            var defectToUpdate = _repository.GetDefectById(id);
+            if(defectToUpdate != null)
+            {
+                //var patchDocument = (JsonPatchDocument<Defect>)patchDoc;
+                //var defectToPatch = _mapper.Map<DefectUpdateDto>(defectToUpdate);
+                
+                var defectModified = _mapper.Map<DefectUpdateDto>(defectToUpdate);
+                patchDoc.ApplyTo(defectModified);
+                _mapper.Map(defectModified, defectToUpdate);
+
+                defectToUpdate.Modified = DateTime.Now;
+
+                _repository.UpdateDefect(defectToUpdate);
+                success = _repository.SaveChanges();
+
             }
 
             return success;

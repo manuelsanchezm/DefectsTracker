@@ -1,13 +1,7 @@
-﻿using AutoMapper;
-using DefectsTracker.Dtos;
-using DefectsTracker.Models;
-using DefectsTracker.Repositories;
+﻿using DefectsTracker.Dtos;
 using DefectsTracker.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing.Internal;
-using System;
 using System.Collections.Generic;
 
 namespace DefectsTracker.Controllers
@@ -18,22 +12,16 @@ namespace DefectsTracker.Controllers
     {
         private readonly IDefectService _defectService;
 
-        private readonly IDefectRepository _repository;
-        private readonly IMapper _mapper;
-
-        public DefectsController(IDefectService defectService, IDefectRepository repository, IMapper mapper)
+        public DefectsController(IDefectService defectService)
         {
             _defectService = defectService;
-
-            _repository = repository;
-            _mapper = mapper;
         }
 
         // GET: api/defects
         [HttpGet]
         public ActionResult<IEnumerable<DefectReadDto>> GetAllDefects()
         {
-            var defects = _defectService.GetDefects();
+            var defects = _defectService.GetAllDefects();
             if (defects == null)
                 return NotFound();
 
@@ -44,7 +32,7 @@ namespace DefectsTracker.Controllers
         [HttpGet("{id}", Name = "GetDefectById")]
         public IActionResult GetDefectById(int id)
         {
-            var defect = _defectService.GetDefect(id);
+            var defect = _defectService.GetDefectById(id);
             if (defect == null)
                 return NotFound(); // 404
 
@@ -52,16 +40,9 @@ namespace DefectsTracker.Controllers
         }
 
         // POST: api/defects
-        public IActionResult CreateDefect(DefectCreateDto defectCreateDto)
+        public IActionResult CreateDefect(DefectCreateDto defect)
         {
-            var defectModel = _mapper.Map<Defect>(defectCreateDto);
-            defectModel.Created = DateTime.Now;
-            defectModel.Modified = DateTime.Now;
-
-            _repository.CreateDefect(defectModel);
-            _repository.SaveChanges();
-
-            var defectCreated = _mapper.Map<DefectReadDto>(defectModel);
+            var defectCreated = _defectService.CreateDefect(defect);
 
             return CreatedAtRoute(nameof(GetDefectById), new { id = defectCreated.Id }, defectCreated);
         }
@@ -73,41 +54,24 @@ namespace DefectsTracker.Controllers
             if (defect == null)
                 return BadRequest();
 
-            var defectModelFromRepository = _repository.GetDefectById(id);
+            var defectModelFromRepository = _defectService.UpdateDefect(id, defect);
+
             if (defectModelFromRepository == null)
                 return NotFound(); // 404
-
-            _mapper.Map(defect, defectModelFromRepository);
-
-            defectModelFromRepository.Modified = DateTime.Now;
-
-            _repository.UpdateDefect(defectModelFromRepository);
-            _repository.SaveChanges();
 
             return CreatedAtRoute(nameof(GetDefectById), new { id = defectModelFromRepository.Id }, defectModelFromRepository);
         }
 
         // PATCH: api/defects/{id}
         [HttpPatch("{id}")]
-        public IActionResult PartialDefectUpdate(int id, JsonPatchDocument<DefectUpdateDto> patchDocument)
+        public IActionResult DefectPartialUpdate(int id, JsonPatchDocument<DefectUpdateDto> patchDoc)
         {
-            var defectModelFromRepository = _repository.GetDefectById(id); 
-            if (defectModelFromRepository == null)
-                return NotFound(); // 404 
-
-            var defectToPatch = _mapper.Map<DefectUpdateDto>(defectModelFromRepository);
-            patchDocument.ApplyTo(defectToPatch, ModelState);
-
-            if (!TryValidateModel(defectToPatch))
+            if (!TryValidateModel(ModelState))
                 return ValidationProblem(ModelState);
 
-            _mapper.Map(defectToPatch, defectModelFromRepository);
 
-            defectModelFromRepository.Modified = DateTime.Now;
 
-            _repository.UpdateDefect(defectModelFromRepository);
-            _repository.SaveChanges();
-
+            _defectService.PartialUpdateDefect(id, patchDoc);
 
             return NoContent();
         }

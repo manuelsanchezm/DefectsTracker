@@ -8,14 +8,15 @@ namespace DefectsTracker.Repositories
     {
         public DefectsTrackerContext(DbContextOptions<DefectsTrackerContext> options)
             : base(options)
-        { }
+        {
+        }
 
         public virtual DbSet<Defect> Defects { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Defect>(entity =>
@@ -26,7 +27,8 @@ namespace DefectsTracker.Repositories
                     .HasColumnName("id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("int")
-                    .HasAnnotation("SqlServer: ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    .HasAnnotation("SqlServer: ValueGenerationStrategy",
+                        SqlServerValueGenerationStrategy.IdentityColumn);
 
                 entity.Property(e => e.AssignedTo)
                     .HasColumnName("assigned_user")

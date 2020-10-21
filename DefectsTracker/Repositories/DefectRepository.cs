@@ -39,6 +39,7 @@ namespace DefectsTracker.Repositories
 
         public IEnumerable<Defect> GetAllDefects()
         {
+            // TODO: try.. catch SqlException
             return _context.Defects.ToList();
         }
 
